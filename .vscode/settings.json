@@ -4,6 +4,12 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.requireConfig": true,
 
+  // Markdown (README) is formatted by Prettier too, so tables stay aligned and CI's format check passes.
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+
   // Also apply ESLint auto-fixes on save (e.g. `import type`, unused imports).
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
