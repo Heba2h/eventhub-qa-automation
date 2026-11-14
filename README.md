@@ -6,12 +6,12 @@ My solution to the QA Automation practical assessment: a review of user story **
 and a **Playwright + TypeScript** framework that tests the flow through the UI and the REST API of
 [EventHub](https://eventhub.rahulshettyacademy.com).
 
-|            |                                                                                   |
-| ---------- | --------------------------------------------------------------------------------- |
-| **Tests**  | 35 (25 API, 10 UI), covering all five acceptance criteria                         |
-| **Found**  | 6 defects, 8 documentation mismatches, 12 questions for the Product Owner         |
-| **Auth**   | Handled by the framework: tests never log in or see a token                       |
-| **Run it** | `npm ci` · `npx playwright install chromium` · `npm test`. No credentials needed. |
+|            |                                                                                                                                                                                |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Tests**  | 35 (25 API, 10 UI), covering all five acceptance criteria. The badge is green because the 2 tests that reproduce open bugs are marked as expected failures ([why](#findings)). |
+| **Found**  | 6 defects, 8 documentation mismatches, 12 questions for the Product Owner                                                                                                      |
+| **Auth**   | Handled by the framework: tests never log in or see a token                                                                                                                    |
+| **Run it** | `npm ci` · `npx playwright install chromium` · `npm test`. No credentials needed.                                                                                              |
 
 **Contents:** [Quick start](#quick-start) · [Story review](#story-review) · [Findings](#findings) ·
 [Test strategy](#test-strategy) · [Architecture](#architecture) · [Key decisions](#key-decisions) ·
