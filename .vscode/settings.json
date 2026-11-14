@@ -1,0 +1,18 @@
+{
+  // Format with Prettier whenever a file is saved (Ctrl+S). Rules come from .prettierrc.json.
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.requireConfig": true,
+
+  // Also apply ESLint auto-fixes on save (e.g. `import type`, unused imports).
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+
+  // Use the TypeScript version installed in this project (the one CI uses).
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
