@@ -1,6 +1,8 @@
 import path from 'node:path';
 import dotenv from 'dotenv';
 
+// .env.local (git-ignored, for personal secrets) is loaded first, so its values win over the committed .env defaults.
+dotenv.config({ path: path.resolve(__dirname, '../.env.local'), quiet: true });
 dotenv.config({ path: path.resolve(__dirname, '../.env'), quiet: true });
 
 function read(name: string, fallback: string): string {

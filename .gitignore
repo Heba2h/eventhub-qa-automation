@@ -4,8 +4,9 @@ test-results/
 blob-report/
 playwright/.cache/
 
-# Secrets and generated sessions — never commit
-.env
+# Personal secrets and generated sessions — never commit
+# (.env itself is committed on purpose: it holds only safe defaults, no secrets)
+.env.local
 .auth/
 
 # Assessment brief (not part of the deliverable)
