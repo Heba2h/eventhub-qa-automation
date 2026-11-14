@@ -14,7 +14,7 @@ and a **Playwright + TypeScript** framework that tests the flow through the UI a
 | **Run it** | `npm ci` · `npx playwright install chromium` · `npm test`. No credentials needed.                                                                                              |
 
 **Contents:** [Quick start](#quick-start) · [Story review](#story-review) · [Findings](#findings) ·
-[Test strategy](#test-strategy) · [Architecture](#architecture) · [Key decisions](#key-decisions) ·
+[Architecture](#architecture) · [Test strategy](#test-strategy) · [Key decisions](#key-decisions) ·
 [With more time](#what-id-do-with-more-time) · [Assumptions](#assumptions)
 
 ## Quick start
@@ -98,25 +98,6 @@ BUG-01 and BUG-02 are `@known-bug` tests marked `test.fail()`: the suite stays g
 | D-06 | `GET /bookings/{id}` returns `200/404/500` | Also `401` and `403`                                                      |
 | D-07 | Each user has a "fully isolated sandbox"   | Featured events and their seat counts are shared by all users             |
 | D-08 | `customerPhone` minLength 10               | ≥ 10 digits; only digits, `+`, `-`, spaces and parentheses (undocumented) |
-
-## Test strategy
-
-Risk-based, following the test pyramid. The **API** suite covers the business rules (fast and precise); the **UI**
-suite covers only what needs a browser. The risks targeted are **money** (wrong totals), **inventory** (overselling,
-lost seats), **access control** (other users' bookings) and **data integrity** (UI matches stored data).
-
-| Suite    | File                    | Covers                                                                                                       |
-| -------- | ----------------------- | ------------------------------------------------------------------------------------------------------------ |
-| API (25) | `create-booking`        | AC1/AC5 booking and reference, AC2 totals (1, 10, fractional price), seats decrease, AC3 listed, unique refs |
-|          | `booking-validation`    | 8 invalid inputs with no side effects, unknown event, overbooking, sold out, BUG-01                          |
-|          | `cancel-booking`        | AC4 releases seats, only for that booking, never twice                                                       |
-|          | `booking-authorization` | `401` when signed out; another user can't view, cancel or book my data                                       |
-| UI (10)  | `book-tickets`          | Full journey to My Bookings, with the stored booking cross-checked via the API; live total; BUG-02           |
-|          | `cancel-booking`        | Cancel via the dialog; dismissing keeps the booking                                                          |
-|          | `booking-form`          | Validation messages, ticket cap (10 or seats left), minimum 1, signed-out user sent to login (S-01)          |
-
-**Not covered yet:** concurrent bookings for the last seat, the login UI (another story), other browsers and mobile,
-admin and refund flows.
 
 ## Architecture
 
@@ -239,6 +220,25 @@ flowchart LR
 
   J2 --> R["Upload HTML report<br/>plus traces and videos on failure"]
 ```
+
+## Test strategy
+
+Risk-based, following the test pyramid. The **API** suite covers the business rules (fast and precise); the **UI**
+suite covers only what needs a browser. The risks targeted are **money** (wrong totals), **inventory** (overselling,
+lost seats), **access control** (other users' bookings) and **data integrity** (UI matches stored data).
+
+| Suite    | File                    | Covers                                                                                                       |
+| -------- | ----------------------- | ------------------------------------------------------------------------------------------------------------ |
+| API (25) | `create-booking`        | AC1/AC5 booking and reference, AC2 totals (1, 10, fractional price), seats decrease, AC3 listed, unique refs |
+|          | `booking-validation`    | 8 invalid inputs with no side effects, unknown event, overbooking, sold out, BUG-01                          |
+|          | `cancel-booking`        | AC4 releases seats, only for that booking, never twice                                                       |
+|          | `booking-authorization` | `401` when signed out; another user can't view, cancel or book my data                                       |
+| UI (10)  | `book-tickets`          | Full journey to My Bookings, with the stored booking cross-checked via the API; live total; BUG-02           |
+|          | `cancel-booking`        | Cancel via the dialog; dismissing keeps the booking                                                          |
+|          | `booking-form`          | Validation messages, ticket cap (10 or seats left), minimum 1, signed-out user sent to login (S-01)          |
+
+**Not covered yet:** concurrent bookings for the last seat, the login UI (another story), other browsers and mobile,
+admin and refund flows.
 
 ## Key decisions
 
