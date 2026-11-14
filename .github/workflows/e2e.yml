@@ -1,0 +1,76 @@
+name: E2E tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# A newer push to the same branch supersedes a running one; also avoids two runs
+# hammering the shared environment with the same accounts at once.
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  static-checks:
+    name: Typecheck, lint, format
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run verify
+
+  test:
+    name: Tests (${{ matrix.project }})
+    needs: static-checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [api, ui-chromium]
+    env:
+      CI: true
+      # Optional. Without these secrets the framework registers throwaway accounts for the run.
+      EVENTHUB_USER_EMAIL: ${{ secrets.EVENTHUB_USER_EMAIL }}
+      EVENTHUB_USER_PASSWORD: ${{ secrets.EVENTHUB_USER_PASSWORD }}
+      EVENTHUB_SECONDARY_EMAIL: ${{ secrets.EVENTHUB_SECONDARY_EMAIL }}
+      EVENTHUB_SECONDARY_PASSWORD: ${{ secrets.EVENTHUB_SECONDARY_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Install Playwright browser
+        if: matrix.project == 'ui-chromium'
+        run: npx playwright install --with-deps chromium
+
+      - name: Run tests
+        run: npx playwright test --project=${{ matrix.project }}
+
+      - name: Upload HTML report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.project }}
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload traces, screenshots and videos
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.project }}
+          path: test-results/
+          retention-days: 14
