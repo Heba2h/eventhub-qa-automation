@@ -1,0 +1,37 @@
+{
+  "name": "eventhub-qa-automation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "UI + API test automation framework for the EventHub ticket booking flow (US-114)",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:ui": "playwright test --project=ui-chromium",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:headed": "playwright test --project=ui-chromium --headed",
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "verify": "npm run typecheck && npm run lint && npm run format:check"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@faker-js/faker": "^10.6.0",
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^26.6.6",
+    "dotenv": "^18.0.10",
+    "eslint": "^9.39.5",
+    "eslint-plugin-playwright": "^2.12.2",
+    "prettier": "^3.10.0",
+    "typescript": "~6.0.0",
+    "typescript-eslint": "^8.72.2"
+  }
+}
