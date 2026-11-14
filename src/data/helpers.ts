@@ -7,7 +7,7 @@ import type { Decimal } from '@api/models';
 /**
  * Booking reference: docs say "EVT-XXXXXX"; the live API returns "<first letter of event title>-XXXXXX"
  * (e.g. "Q-Y0RTZR"). The pattern accepts both so it validates shape without encoding either
- * side of an unresolved product question (README, finding D-04).
+ * side of an unresolved product question (README, findings D-04).
  */
 export const BOOKING_REF_PATTERN = /^[A-Z0-9]+-[A-Z0-9]{6}$/;
 

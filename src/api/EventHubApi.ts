@@ -78,7 +78,7 @@ export class BookingsApi extends BaseApiClient {
     return response;
   }
 
-  /** Cancels a booking. Note: the live API hard-deletes it (see README, story review). */
+  /** Cancels a booking. Note: the live API hard-deletes it (see README, story review S-02). */
   cancel(id: number) {
     return this.delete<MessageEnvelope>(`bookings/${id}`);
   }
