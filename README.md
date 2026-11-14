@@ -32,13 +32,16 @@ npm run report                    # open the HTML report
 authorization tests) and caches them in `.auth/`. `.env` holds safe defaults only. To use your own accounts, set
 `EVENTHUB_USER_EMAIL`/`_PASSWORD` and `EVENTHUB_SECONDARY_EMAIL`/`_PASSWORD` in a git-ignored `.env.local`.
 
-| Command                                                  | Runs                                       |
-| -------------------------------------------------------- | ------------------------------------------ |
-| `npm run test:api` / `npm run test:ui`                   | One suite                                  |
-| `npm run test:smoke`                                     | One happy path per acceptance criterion    |
-| `npx playwright test booking-form --project=ui-chromium` | One file (always pass `--project`)         |
-| `npx playwright test --ui`                               | Playwright UI mode for debugging           |
-| `npm run verify`                                         | Typecheck, lint and format check, as in CI |
+| Command                                                  | What it does                                                            |
+| -------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `npm run test:api` / `npm run test:ui`                   | API tests only (no browser) / UI tests only                             |
+| `npm run test:smoke`                                     | `@smoke` subset: one happy path per acceptance criterion                |
+| `npm run test:headed`                                    | UI tests with a visible browser                                         |
+| `npx playwright test booking-form --project=ui-chromium` | One test file. Always add `--project`, as some file names exist in both |
+| `npx playwright test --ui`                               | Playwright UI mode, for exploring and debugging                         |
+| `npx playwright test --grep @known-bug`                  | Only the tests that reproduce open defects                              |
+| `npm run verify`                                         | Typecheck, lint and format check (the same as CI)                       |
+| `npm run format`                                         | Format all files with Prettier                                          |
 
 ## Story review
 
@@ -254,7 +257,7 @@ flowchart LR
 
 1. Contract tests against the OpenAPI schema (would catch D-02, D-04, D-05 automatically).
 2. A concurrency test for the last seat, on a dedicated environment.
-3. Firefox, WebKit and mobile projects, plus visual checks of the confirmation panel.
+3. Firefox, Edge and mobile projects, plus visual checks of the confirmation panel.
 4. Ask developers for `data-testid`s on the confirmation panel and a test-data reset API.
 5. A smoke gate on pull requests, a nightly full run and the report published to GitHub Pages.
 
