@@ -9,7 +9,7 @@ test.describe('Cancel booking via API — US-114 AC4', { tag: '@api' }, () => {
 
     expect(response.status).toBe(200);
     expect((await seed.getEvent(event.id)).availableSeats).toBe(10);
-    // Cancellation is a hard delete on this API (README, finding D-03): the booking is gone,
+    // Cancellation is a hard delete on this API (README, findings D-03): the booking is gone,
     // not kept with status "cancelled".
     expect((await api.bookings.getById(booking.id)).status).toBe(404);
     expect((await api.bookings.list({ eventId: event.id })).body.data).toHaveLength(0);

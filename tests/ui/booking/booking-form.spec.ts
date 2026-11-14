@@ -53,7 +53,7 @@ test.describe('Booking form rules in the web app', { tag: '@ui' }, () => {
 test.describe('Booking as a signed-out visitor', { tag: '@ui' }, () => {
   test.use({ role: 'anonymous' });
 
-  // The story says "As a visitor", but booking requires an account (README, finding S-01).
+  // The story says "As a visitor", but booking requires an account (README, story review S-01).
   test('is redirected to sign in before booking', async ({ page, seed, eventDetailsPage }) => {
     const event = await seed.createEvent();
 

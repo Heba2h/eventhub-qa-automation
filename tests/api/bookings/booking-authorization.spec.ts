@@ -15,7 +15,7 @@ test.describe('Booking authorization', { tag: ['@api', '@security'] }, () => {
     const booking = await seed.createBooking(event.id);
     const intruder = await apiAs('secondary');
 
-    // 403 vs 404 is inconsistent across endpoints (README, finding D-06); either is a denial.
+    // 403 vs 404 is inconsistent across endpoints (README, findings D-06); either is a denial.
     expect([403, 404]).toContain((await intruder.bookings.getById(booking.id)).status);
     expect([403, 404]).toContain((await intruder.bookings.getByRef(booking.bookingRef)).status);
     expect([403, 404]).toContain((await intruder.bookings.cancel(booking.id)).status);

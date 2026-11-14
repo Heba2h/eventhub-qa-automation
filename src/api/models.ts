@@ -1,6 +1,6 @@
 /**
  * Contracts of the EventHub API, based on the Swagger docs and corrected where the live API differs
- * (see README, "Documentation does not match the API").
+ * (see README, findings: "Documentation does not match the API").
  */
 
 // ---------------------------------------------------------------------------------------------
